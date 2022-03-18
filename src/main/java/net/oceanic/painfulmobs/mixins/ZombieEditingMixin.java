@@ -7,6 +7,7 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
+import net.oceanic.painfulmobs.PainfulMobsMod;
 import net.oceanic.painfulmobs.explosions.NukeExplosion;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,7 +22,9 @@ import javax.annotation.Nullable;
 public class ZombieEditingMixin {
     @Inject(method = "isSunSensitive", at = @At("RETURN"), cancellable = true)
     private void injectedSunSensitive(CallbackInfoReturnable<Boolean> cir){
-        cir.setReturnValue(false);
+        if (PainfulMobsMod.getShouldModify(((Zombie)(Object)this).getLevel())) {
+            cir.setReturnValue(false);
+        }
     }
 
 

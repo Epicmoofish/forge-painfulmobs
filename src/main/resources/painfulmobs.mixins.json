@@ -10,7 +10,10 @@
     "ZombieEditingMixin",
     "ZombieGettingMixin",
     "SkeletonEditingMixin",
-    "SkeletonGettingMixin"
+    "SkeletonGettingMixin",
+    "EndermanEditingMixin",
+    "EndermanGettingMixin",
+    "SlimeGettingMixin"
   ],
   "client": [
 

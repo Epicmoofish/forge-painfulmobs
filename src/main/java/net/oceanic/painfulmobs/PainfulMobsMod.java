@@ -1,6 +1,7 @@
 package net.oceanic.painfulmobs;
 
 import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -50,7 +51,7 @@ public class PainfulMobsMod
 
     private void setup(final FMLCommonSetupEvent event)
     {
-//        furnaceSpeedMultiplier=createInteger("furnaceSpeedMultiplier", 20, GameRules.Category.UPDATES);
+        modifyMobs=createBoolean("modifyMobs", true, GameRules.Category.MOBS);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)
@@ -69,25 +70,27 @@ public class PainfulMobsMod
             return null;
         }
     }
-//public static GameRules.Key<GameRules.BooleanValue> createBoolean(String id, boolean defaultVal, GameRules.Category cat) {
-//    //access transformers cfg SHULD make this create public
-////      Type<BooleanValue> ruleTypeBoolean2 = GameRules.BooleanValue.create(true); // this works if AT works
-//    try {
-//        Method m = ObfuscationReflectionHelper.findMethod(GameRules.BooleanValue.class, "m_46250_", boolean.class);
-////      m.setAccessible(true);
-//        GameRules.Type<GameRules.BooleanValue> ruleTypeBoolean = (GameRules.Type<GameRules.BooleanValue>) m.invoke(null, defaultVal);
-//        GameRules.Key<GameRules.BooleanValue> rule = GameRules.register(id, cat, ruleTypeBoolean);
-//        return rule;
-//    }
-//    catch (Exception e) {
+    public static boolean getShouldModify(Level level){
+        return level.getGameRules().getBoolean(modifyMobs);
+    }
+public static GameRules.Key<GameRules.BooleanValue> createBoolean(String id, boolean defaultVal, GameRules.Category cat) {
+
+    try {
+        Method m = ObfuscationReflectionHelper.findMethod(GameRules.BooleanValue.class, "m_46250_", boolean.class);
+//      m.setAccessible(true);
+        GameRules.Type<GameRules.BooleanValue> ruleTypeBoolean = (GameRules.Type<GameRules.BooleanValue>) m.invoke(null, defaultVal);
+        GameRules.Key<GameRules.BooleanValue> rule = GameRules.register(id, cat, ruleTypeBoolean);
+        return rule;
+    }
+    catch (Exception e) {
 //        FasterFurnaceMod.LOGGER.error("Create gamerule error", e);
-//    }
-//    return null;
-//}
+    }
+    return null;
+}
     private void processIMC(final InterModProcessEvent event)
     {
     }
-    public static GameRules.Key<GameRules.IntegerValue> furnaceSpeedMultiplier;
+    public static GameRules.Key<GameRules.BooleanValue> modifyMobs;
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)

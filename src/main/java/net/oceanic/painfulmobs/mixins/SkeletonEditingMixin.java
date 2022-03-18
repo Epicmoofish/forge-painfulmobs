@@ -1,6 +1,8 @@
 package net.oceanic.painfulmobs.mixins;
 
 import net.minecraft.world.entity.ai.goal.RangedBowAttackGoal;
+import net.minecraft.world.entity.monster.Zombie;
+import net.oceanic.painfulmobs.PainfulMobsMod;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
@@ -15,13 +17,20 @@ public class SkeletonEditingMixin {
     )
     )
     private int injectedTick(int value){
-        return 1;
+        if (PainfulMobsMod.getShouldModify(((SkeletonGettingMixin)(RangedBowAttackGoal)(Object)this).getMob().getLevel())) {
+            return 1;
+        }
+        return value;
     }
     @Redirect(method="tick",at=@At(value="FIELD", target="Lnet/minecraft/world/entity/ai/goal/RangedBowAttackGoal;attackTime:I",opcode= Opcodes.PUTFIELD))
     private void injectedAttackTime(RangedBowAttackGoal instance, int value){
         SkeletonGettingMixin mixined=(SkeletonGettingMixin)instance;
-        if (value == mixined.getAttackIntervalMin()){
-            mixined.setAttackTime(1);
+        if (PainfulMobsMod.getShouldModify(((SkeletonGettingMixin)(RangedBowAttackGoal)(Object)this).getMob().getLevel())) {
+            if (value == mixined.getAttackIntervalMin()) {
+                mixined.setAttackTime(1);
+            }
+        } else{
+            mixined.setAttackTime(value);
         }
     }
 
