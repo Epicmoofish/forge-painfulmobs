@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.oceanic.painfulmobs.mixins",
+  "refmap": "painfulmobs.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "CreeperEditingMixin",
+    "CreeperGettingMixin",
+    "ZombieEditingMixin",
+    "ZombieGettingMixin",
+    "SkeletonEditingMixin",
+    "SkeletonGettingMixin"
+  ],
+  "client": [
+
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
