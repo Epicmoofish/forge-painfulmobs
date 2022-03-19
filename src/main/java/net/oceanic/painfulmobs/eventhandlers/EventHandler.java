@@ -5,9 +5,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.*;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraft.world.level.Explosion;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.oceanic.painfulmobs.PainfulMobsMod;
 import net.oceanic.painfulmobs.mixins.SlimeGettingMixin;
@@ -55,32 +54,28 @@ if (slime.getLevel().getGameTime()%200 ==0){
             }
         }
     }
+//    @SubscribeEvent
+    public void deathEvent(LivingDeathEvent event) {
+        if (event.getEntityLiving() != null && PainfulMobsMod.getShouldModify(event.getEntityLiving().getLevel())) {
+            if (event.getSource() != null && event.getSource().getEntity() != null && event.getSource().getEntity() instanceof Guardian && event.getEntityLiving() != null && !event.getSource().isExplosion()) {
+                event.setCanceled(true);
+            }
+        }
+    }
     @SubscribeEvent
     public void hurtEvent(LivingHurtEvent event) {
-        if ( event.getEntityLiving()!=null &&!event.getEntityLiving().getLevel().isClientSide() && PainfulMobsMod.getShouldModify(event.getEntityLiving().getLevel())) {
-            if (event.getSource() != null && event.getSource().getEntity() != null && event.getSource().getEntity() instanceof Zombie) {
-                event.setAmount(event.getAmount() * 5);
-            }
-            if (event.getSource() != null && event.getSource().getEntity() != null && event.getSource().getEntity() instanceof AbstractSkeleton) {
-                event.setAmount(event.getAmount() * 20);
-            }
+        if ( event.getEntityLiving()!=null && PainfulMobsMod.getShouldModify(event.getEntityLiving().getLevel())) {
+
             if (event.getSource() != null && event.getSource().getEntity() != null && event.getSource().getEntity() instanceof Spider && event.getEntityLiving() != null) {
-                event.setAmount(event.getAmount() * 3);
                 if (event.getEntityLiving().isAffectedByPotions() && event.getAmount() > 0) {
                     event.getEntityLiving().addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
                 }
             }
             if (event.getSource() != null && event.getSource().getEntity() != null && event.getSource().getEntity() instanceof EnderMan && event.getEntityLiving() != null) {
-                event.setAmount(event.getAmount() * 5);
+
                 if (event.getEntityLiving().isAffectedByPotions() && event.getAmount() > 0) {
                     event.getEntityLiving().addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0));
                 }
-            }
-            if (event.getSource() != null && event.getSource().getEntity() != null && event.getSource().getEntity() instanceof Slime && event.getEntityLiving() != null) {
-                event.setAmount(event.getAmount() * 2);
-            }
-            if (event.getEntity() != null && event.getEntity() instanceof Zombie) {
-                event.setAmount(event.getAmount() / 10);
             }
         }
     }

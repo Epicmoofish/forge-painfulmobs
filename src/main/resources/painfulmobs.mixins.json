@@ -13,7 +13,10 @@
     "SkeletonGettingMixin",
     "EndermanEditingMixin",
     "EndermanGettingMixin",
-    "SlimeGettingMixin"
+    "SlimeGettingMixin",
+    "GuardianEditingMixin",
+    "LivingGettingMixin",
+    "LivingEditingMixin"
   ],
   "client": [
 
