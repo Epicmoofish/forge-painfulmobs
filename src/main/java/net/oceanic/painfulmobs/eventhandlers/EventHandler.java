@@ -54,14 +54,6 @@ if (slime.getLevel().getGameTime()%200 ==0){
             }
         }
     }
-//    @SubscribeEvent
-    public void deathEvent(LivingDeathEvent event) {
-        if (event.getEntityLiving() != null && PainfulMobsMod.getShouldModify(event.getEntityLiving().getLevel())) {
-            if (event.getSource() != null && event.getSource().getEntity() != null && event.getSource().getEntity() instanceof Guardian && event.getEntityLiving() != null && !event.getSource().isExplosion()) {
-                event.setCanceled(true);
-            }
-        }
-    }
     @SubscribeEvent
     public void hurtEvent(LivingHurtEvent event) {
         if ( event.getEntityLiving()!=null && PainfulMobsMod.getShouldModify(event.getEntityLiving().getLevel())) {
