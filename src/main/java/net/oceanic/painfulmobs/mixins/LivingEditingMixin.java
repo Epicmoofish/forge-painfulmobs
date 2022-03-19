@@ -4,6 +4,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.*;
+import net.minecraft.world.entity.monster.piglin.Piglin;
+import net.minecraft.world.entity.monster.piglin.PiglinBrute;
 import net.minecraft.world.level.Explosion;
 import net.oceanic.painfulmobs.PainfulMobsMod;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +18,7 @@ public abstract class LivingEditingMixin {
     @Shadow protected abstract void hurtCurrentlyUsedShield(float p_21316_);
 
     @ModifyVariable(method="hurt",at=@At(value="HEAD"))
-    private float cancelHurtShield(float p_21017_, DamageSource p_21016_) {
+    private float changeDamage(float p_21017_, DamageSource p_21016_) {
         LivingEntity target=(LivingEntity)(Object)this;
         float damage = p_21017_;
         if ( target!=null && PainfulMobsMod.getShouldModify(target.getLevel())) {
@@ -46,6 +48,11 @@ public abstract class LivingEditingMixin {
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Spider && target != null) {
                 damage = damage * 3;
             }
+            if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof PiglinBrute && target != null) {
+                damage = damage * 10;
+            } else if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Piglin && target != null){
+                damage = damage * 1.5F;
+            }
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof EnderMan && target != null) {
                 damage = damage * 5;
             }
@@ -54,6 +61,9 @@ public abstract class LivingEditingMixin {
             }
             if (target != null && target instanceof Zombie) {
                 damage = damage / 10;
+            }
+            if (target != null && target instanceof PiglinBrute) {
+                damage = damage / 3;
             }
         }
             return damage;

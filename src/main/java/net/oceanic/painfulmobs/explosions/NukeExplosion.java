@@ -87,7 +87,7 @@ public class NukeExplosion extends Explosion {
             double displaceZ=entity.getZ()-this.z;
             double distance=displaceX*displaceX+displaceY*displaceY+displaceZ*displaceZ;
             if (distance<=((double)actualradius+0.3*(double)actualradius)*((double)actualradius+0.3*(double)actualradius)){
-                double damageDealt=30*(((double)actualradius+0.1*(double)actualradius)*((double)actualradius+0.1*(double)actualradius)-distance)+10;
+                double damageDealt=30*(((double)actualradius+0.3*(double)actualradius)*((double)actualradius+0.3*(double)actualradius)-distance)+10;
                 entity.hurt(this.getDamageSource(),(float)damageDealt);
             }
         }

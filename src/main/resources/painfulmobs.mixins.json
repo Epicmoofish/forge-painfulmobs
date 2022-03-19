@@ -16,7 +16,8 @@
     "SlimeGettingMixin",
     "GuardianEditingMixin",
     "LivingGettingMixin",
-    "LivingEditingMixin"
+    "LivingEditingMixin",
+    "ZombiePigmanEditingMixin"
   ],
   "client": [
 

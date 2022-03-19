@@ -5,6 +5,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.*;
+import net.minecraft.world.entity.monster.piglin.PiglinBrute;
 import net.minecraft.world.level.Explosion;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -69,6 +70,12 @@ if (slime.getLevel().getGameTime()%200 ==0){
                     event.getEntityLiving().addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0));
                 }
             }
+        }
+    }
+    @SubscribeEvent
+    public void knockBackEvent(LivingKnockBackEvent event) {
+        if (event.getEntityLiving() !=null && event.getEntityLiving() instanceof PiglinBrute){
+            event.setCanceled(true);
         }
     }
 }
