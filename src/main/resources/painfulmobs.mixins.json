@@ -17,7 +17,10 @@
     "GuardianEditingMixin",
     "LivingGettingMixin",
     "LivingEditingMixin",
-    "ZombiePigmanEditingMixin"
+    "ZombiePigmanEditingMixin",
+    "BlazeGettingMixin",
+    "BlazeEditingMixin",
+    "SilverfishEditingMixin"
   ],
   "client": [
 

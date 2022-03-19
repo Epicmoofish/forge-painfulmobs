@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ExplosionDamageCalculator;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -26,6 +28,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.oceanic.painfulmobs.mixins.CreeperGettingMixin;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -66,14 +69,20 @@ public class NukeExplosion extends Explosion {
                     for (int zCoord = -actualradius; zCoord < actualradius + 1; zCoord++) {
                         BlockPos posToExplode = new BlockPos((int) x + xCoord, (int) y + yCoord, (int) z + zCoord);
                         if (xCoord * xCoord + yCoord * yCoord + zCoord * zCoord <= actualradius * actualradius && level.getBlockState(posToExplode) != null && level.getBlockState(posToExplode).getDestroySpeed(level, posToExplode) != -1.0F) {
-                            level.setBlockAndUpdate(posToExplode, Blocks.AIR.defaultBlockState());
+                            if (level.getBlockState(posToExplode).getBlock() instanceof TntBlock){
+                                ((TntBlock)level.getBlockState(posToExplode).getBlock()).onBlockExploded(level.getBlockState(posToExplode),level,posToExplode,this);
                                 this.toBlow.add(posToExplode);
+                            } else {
+                                level.setBlockAndUpdate(posToExplode, Blocks.AIR.defaultBlockState());
+                                this.toBlow.add(posToExplode);
+                            }
                         }
 
                     }
                 }
             }
         }
+
         int k1 = Mth.floor(this.x - (double)actualradius - 10.0D);
         int l1 = Mth.floor(this.x + (double)actualradius + 10.0D);
         int i2 = Mth.floor(this.y - (double)actualradius - 10.0D);
@@ -81,14 +90,20 @@ public class NukeExplosion extends Explosion {
         int j2 = Mth.floor(this.z - (double)actualradius - 10.0D);
         int j1 = Mth.floor(this.z + (double)actualradius + 10.0D);
         List<Entity> list = this.level.getEntities(this.source, new AABB((double)k1, (double)i2, (double)j2, (double)l1, (double)i1, (double)j1));
+        this.source.addTag("immuneToChain");
         for (Entity entity : list){
             double displaceX=entity.getX()-this.x;
             double displaceY=entity.getY()-this.y;
             double displaceZ=entity.getZ()-this.z;
             double distance=displaceX*displaceX+displaceY*displaceY+displaceZ*displaceZ;
+
             if (distance<=((double)actualradius+0.3*(double)actualradius)*((double)actualradius+0.3*(double)actualradius)){
-                double damageDealt=30*(((double)actualradius+0.3*(double)actualradius)*((double)actualradius+0.3*(double)actualradius)-distance)+10;
-                entity.hurt(this.getDamageSource(),(float)damageDealt);
+                if (entity instanceof Creeper && !entity.is(this.source) && !entity.getTags().contains("immuneToChain")){
+                    ((CreeperGettingMixin)(Creeper)entity).invokeExplodeCreeper();
+                } else {
+                    double damageDealt = 30 * (((double) actualradius + 0.3 * (double) actualradius) * ((double) actualradius + 0.3 * (double) actualradius) - distance) + 10;
+                    entity.hurt(this.getDamageSource(), (float) damageDealt);
+                }
             }
         }
     }

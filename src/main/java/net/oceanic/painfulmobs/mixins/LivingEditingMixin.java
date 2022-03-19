@@ -43,7 +43,7 @@ public abstract class LivingEditingMixin {
                 damage = damage * 5;
             }
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof AbstractSkeleton) {
-                damage = damage * 20;
+                damage = damage * 5;
             }
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Spider && target != null) {
                 damage = damage * 3;

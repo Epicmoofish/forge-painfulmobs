@@ -10,6 +10,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.oceanic.painfulmobs.PainfulMobsMod;
+import net.oceanic.painfulmobs.mixins.BlazeGettingMixin;
 import net.oceanic.painfulmobs.mixins.SlimeGettingMixin;
 
 import java.util.Random;
@@ -20,6 +21,7 @@ public class EventHandler {
     public void updateEvent(LivingEvent.LivingUpdateEvent event) {
 //        System.out.println("Hi from spawn event");
         if (!event.getEntityLiving().getLevel().isClientSide() && PainfulMobsMod.getShouldModify(event.getEntityLiving().getLevel())) {
+
             if (event.getEntityLiving() instanceof Zombie) {
                 Zombie zombie = ((Zombie) event.getEntityLiving());
                 if (!zombie.canBreakDoors()) {

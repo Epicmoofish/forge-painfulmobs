@@ -27,7 +27,9 @@ public class SkeletonEditingMixin {
         SkeletonGettingMixin mixined=(SkeletonGettingMixin)instance;
         if (PainfulMobsMod.getShouldModify(((SkeletonGettingMixin)(RangedBowAttackGoal)(Object)this).getMob().getLevel())) {
             if (value == mixined.getAttackIntervalMin()) {
-                mixined.setAttackTime(1);
+                mixined.setAttackTime(10);
+            } else {
+                mixined.setAttackTime(value);
             }
         } else{
             mixined.setAttackTime(value);
