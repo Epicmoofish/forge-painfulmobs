@@ -56,6 +56,9 @@ public abstract class LivingEditingMixin {
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof EnderMan && target != null) {
                 damage = damage * 5;
             }
+            if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Ravager && target != null) {
+                damage = damage * 10;
+            }
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Slime && target != null) {
                 damage = damage * 2;
             }

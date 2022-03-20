@@ -65,18 +65,6 @@ public class HoglinEditingMixin {
             p_34647_.hurtMarked = true;
         }
     }
-//    @ModifyConstant(method = "throwTarget", constant=@Constant(floatValue = 0.2f))
-//    private static float injectedFloat1(float value) {
-//        return value*6;
-//    }
-//    @ModifyConstant(method = "throwTarget", constant=@Constant(floatValue = 0.5f))
-//    private static float injectedFloat2(float value) {
-//        return value*6;
-//    }
-//    @ModifyConstant(method = "throwTarget", constant=@Constant(doubleValue = 0.5D))
-//    private static double injectedDouble(double value) {
-//        return value*6;
-//    }
 
 
 }

@@ -1,4 +1,4 @@
-package net.oceanic.painfulmobs;
+package net.oceanic.painfulmobs.goals;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;

@@ -2,12 +2,9 @@ package net.oceanic.painfulmobs.mixins;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Silverfish;
-import net.minecraft.world.entity.player.Player;
 import net.oceanic.painfulmobs.PainfulMobsMod;
-import net.oceanic.painfulmobs.SilverfishWakeupGoal;
+import net.oceanic.painfulmobs.goals.SilverfishWakeupGoal;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

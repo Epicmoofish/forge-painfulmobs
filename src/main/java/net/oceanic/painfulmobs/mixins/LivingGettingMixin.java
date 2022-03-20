@@ -12,6 +12,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public interface LivingGettingMixin {
     @Invoker("hurtCurrentlyUsedShield")
     public void invokeHurtShield(float p_33594_);
+    @Invoker("blockUsingShield")
+    public void invokeUseShield(LivingEntity living);
 }
 
 

@@ -4,6 +4,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.monster.piglin.PiglinBrute;
@@ -14,6 +15,7 @@ import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.oceanic.painfulmobs.PainfulMobsMod;
 import net.oceanic.painfulmobs.mixins.BlazeGettingMixin;
+import net.oceanic.painfulmobs.mixins.LivingGettingMixin;
 import net.oceanic.painfulmobs.mixins.SlimeGettingMixin;
 
 import java.util.Random;
@@ -96,6 +98,13 @@ if (slime.getLevel().getGameTime()%200 ==0){
                     evoker.setItemInHand(InteractionHand.OFF_HAND,new ItemStack(Items.TOTEM_OF_UNDYING,1));
                 }
             }
+        }
+    }
+    @SubscribeEvent
+    public void shieldEvent(ShieldBlockEvent event) {
+        if (event.getDamageSource()!=null && event.getDamageSource().getEntity() instanceof Vindicator){
+            ((LivingGettingMixin)event.getEntityLiving()).invokeUseShield((LivingEntity)event.getDamageSource().getEntity());
+            event.setCanceled(true);
         }
     }
     @SubscribeEvent

@@ -1,4 +1,4 @@
-package net.oceanic.painfulmobs;
+package net.oceanic.painfulmobs.goals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
