@@ -22,7 +22,9 @@
     "BlazeEditingMixin",
     "SilverfishEditingMixin",
     "EndermiteEditingMixin",
-    "HoglinEditingMixin"
+    "HoglinEditingMixin",
+    "WitchEditingMixin",
+    "GhastGettingMixin"
   ],
   "client": [
 

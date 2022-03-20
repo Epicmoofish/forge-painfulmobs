@@ -15,6 +15,7 @@ import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.oceanic.painfulmobs.PainfulMobsMod;
 import net.oceanic.painfulmobs.mixins.BlazeGettingMixin;
+import net.oceanic.painfulmobs.mixins.GhastGettingMixin;
 import net.oceanic.painfulmobs.mixins.LivingGettingMixin;
 import net.oceanic.painfulmobs.mixins.SlimeGettingMixin;
 
@@ -57,7 +58,12 @@ public class EventHandler {
     public void updateEvent(LivingEvent.LivingUpdateEvent event) {
 //        System.out.println("Hi from spawn event");
         if (!event.getEntityLiving().getLevel().isClientSide() && PainfulMobsMod.getShouldModify(event.getEntityLiving().getLevel())) {
-
+            if (event.getEntityLiving() instanceof Ghast) {
+                Ghast ghast = ((Ghast) event.getEntityLiving());
+                if (ghast.getExplosionPower()<5){
+                    ((GhastGettingMixin)ghast).setExplosionPower(ghast.getExplosionPower()*5);
+                }
+            }
             if (event.getEntityLiving() instanceof Zombie) {
                 Zombie zombie = ((Zombie) event.getEntityLiving());
                 if (!zombie.canBreakDoors()) {
@@ -102,9 +108,11 @@ if (slime.getLevel().getGameTime()%200 ==0){
     }
     @SubscribeEvent
     public void shieldEvent(ShieldBlockEvent event) {
-        if (event.getDamageSource()!=null && event.getDamageSource().getEntity() instanceof Vindicator){
-            ((LivingGettingMixin)event.getEntityLiving()).invokeUseShield((LivingEntity)event.getDamageSource().getEntity());
-            event.setCanceled(true);
+        if ( event.getEntityLiving()!=null && PainfulMobsMod.getShouldModify(event.getEntityLiving().getLevel())) {
+            if (event.getDamageSource() != null && event.getDamageSource().getEntity() instanceof Vindicator) {
+                ((LivingGettingMixin) event.getEntityLiving()).invokeUseShield((LivingEntity) event.getDamageSource().getEntity());
+                event.setCanceled(true);
+            }
         }
     }
     @SubscribeEvent
@@ -126,6 +134,12 @@ if (slime.getLevel().getGameTime()%200 ==0){
 
                 if (event.getEntityLiving().isAffectedByPotions() && event.getAmount() > 0) {
                     event.getEntityLiving().addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 9));
+                }
+            }
+            if (event.getSource() != null && event.getSource().getEntity() != null && event.getSource().getEntity() instanceof Shulker && event.getEntityLiving() != null) {
+
+                if (event.getEntityLiving().isAffectedByPotions() && event.getAmount() > 0) {
+                    event.getEntityLiving().addEffect(new MobEffectInstance(MobEffects.LEVITATION, 200, 9));
                 }
             }
         }

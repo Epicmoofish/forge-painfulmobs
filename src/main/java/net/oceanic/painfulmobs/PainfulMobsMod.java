@@ -51,7 +51,7 @@ public class PainfulMobsMod
 
     private void setup(final FMLCommonSetupEvent event)
     {
-        modifyMobs=createBoolean("modifyMobs", true, GameRules.Category.MOBS);
+//        modifyMobs=createBoolean("modifyMobs", true, GameRules.Category.MOBS);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)
@@ -71,7 +71,8 @@ public class PainfulMobsMod
         }
     }
     public static boolean getShouldModify(Level level){
-        return level.getGameRules().getBoolean(modifyMobs);
+//        return level.getGameRules().getBoolean(modifyMobs);
+        return true;
     }
 public static GameRules.Key<GameRules.BooleanValue> createBoolean(String id, boolean defaultVal, GameRules.Category cat) {
 
@@ -90,7 +91,7 @@ public static GameRules.Key<GameRules.BooleanValue> createBoolean(String id, boo
     private void processIMC(final InterModProcessEvent event)
     {
     }
-    public static GameRules.Key<GameRules.BooleanValue> modifyMobs;
+//    public static GameRules.Key<GameRules.BooleanValue> modifyMobs;
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)

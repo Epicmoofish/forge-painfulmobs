@@ -68,11 +68,20 @@ public abstract class LivingEditingMixin {
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Vex && target != null) {
                 damage = damage * 5;
             }
+            if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Pillager && target != null) {
+                damage = damage * 2;
+            }
+            if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Pillager && target != null) {
+                ((Pillager)p_21016_.getEntity()).heal(damage);
+            }
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Phantom && target != null) {
                 ((Phantom)p_21016_.getEntity()).heal(damage);
             }
             if (target != null && target instanceof Zombie) {
                 damage = damage / 10;
+            }
+            if (target != null && target instanceof Shulker) {
+                damage = damage / 4;
             }
             if (target != null && target instanceof PiglinBrute) {
                 damage = damage / 3;
