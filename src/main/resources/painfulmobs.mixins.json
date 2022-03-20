@@ -20,7 +20,9 @@
     "ZombiePigmanEditingMixin",
     "BlazeGettingMixin",
     "BlazeEditingMixin",
-    "SilverfishEditingMixin"
+    "SilverfishEditingMixin",
+    "EndermiteEditingMixin",
+    "HoglinEditingMixin"
   ],
   "client": [
 

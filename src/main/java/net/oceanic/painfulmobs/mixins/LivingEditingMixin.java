@@ -42,7 +42,7 @@ public abstract class LivingEditingMixin {
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Zombie) {
                 damage = damage * 5;
             }
-            if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof AbstractSkeleton) {
+            if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof AbstractSkeleton &&! (p_21016_.getEntity() instanceof WitherSkeleton)) {
                 damage = damage * 5;
             }
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Spider && target != null) {
@@ -59,11 +59,26 @@ public abstract class LivingEditingMixin {
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Slime && target != null) {
                 damage = damage * 2;
             }
+            if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Endermite && target != null) {
+                damage = damage * 50;
+            }
+            if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Vex && target != null) {
+                damage = damage * 5;
+            }
+            if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Phantom && target != null) {
+                ((Phantom)p_21016_.getEntity()).heal(damage);
+            }
             if (target != null && target instanceof Zombie) {
                 damage = damage / 10;
             }
             if (target != null && target instanceof PiglinBrute) {
                 damage = damage / 3;
+            }
+            if (target != null && target instanceof Endermite && p_21016_!=DamageSource.DROWN) {
+                damage = 0;
+            }
+            if (target != null && target instanceof Endermite && p_21016_==DamageSource.DROWN) {
+                damage = damage/10;
             }
         }
             return damage;

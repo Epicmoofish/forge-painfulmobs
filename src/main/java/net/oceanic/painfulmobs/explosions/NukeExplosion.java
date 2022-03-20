@@ -63,7 +63,7 @@ public class NukeExplosion extends Explosion {
     public void explode() {
         this.level.gameEvent(this.source, GameEvent.EXPLODE, new BlockPos(this.x, this.y, this.z));
         int actualradius = (int)(this.radius*10);
-        if (blockInteraction != BlockInteraction.NONE&&level.getFluidState(new BlockPos((int)x,(int)y,(int)z)).isEmpty()) {
+        if (blockInteraction != BlockInteraction.NONE&&!this.source.isInWaterOrBubble()) {
             for (int xCoord = -actualradius; xCoord < actualradius + 1; xCoord++) {
                 for (int yCoord = -actualradius; yCoord < actualradius + 1; yCoord++) {
                     for (int zCoord = -actualradius; zCoord < actualradius + 1; zCoord++) {
