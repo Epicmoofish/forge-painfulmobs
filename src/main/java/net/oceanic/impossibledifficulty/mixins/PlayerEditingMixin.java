@@ -41,7 +41,7 @@ private void injectedUnderwater(CallbackInfoReturnable<Boolean> cir){
     private void injectedAirSupply(LivingEntity instance, int i) {
 
     }
-    @Inject(method="baseTick",at=@At(value="TAIL"))
+    @Inject(method="baseTick",at=@At(value="HEAD"))
     private void injectedTick(CallbackInfo ci) {
         LivingEntity ent = (LivingEntity) (Object) this;
         if (ent instanceof Player) {
