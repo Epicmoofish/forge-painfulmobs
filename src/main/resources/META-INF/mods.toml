@@ -21,7 +21,7 @@ modId="impossibledifficulty" #mandatory
 # see the associated build.gradle script for how to populate this completely automatically during a build
 version="1.0.0" #mandatory
  # A display name for the mod
-displayName="Painful Mobs" #mandatory
+displayName="Impossible Difficulty" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
@@ -34,7 +34,7 @@ credits="OceanicOxen" #optional
 authors="OceanicOxen" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Makes mobs extremely annoying to deal with.
+Makes the game extremely hard, probably impossible.
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.impossibledifficulty]] #optional
