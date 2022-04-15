@@ -92,8 +92,7 @@ public class ClientNukeExplosionPacket implements Packet<ClientGamePacketListene
         PacketUtils.ensureRunningOnSameThread(this, p_132126_, ((ClientGettingMixin)p_132126_).getMinecraft());
         NukeExplosion explosion = new NukeExplosion(((ClientGettingMixin)p_132126_).getMinecraft().level, (Entity)null, this.getX(), this.getY(), this.getZ(), this.getPower(), this.getToBlow());
         explosion.finalizeExplosion(true);
-        ((ClientGettingMixin)p_132126_).getMinecraft().player.setDeltaMovement(((ClientGettingMixin)p_132126_).getMinecraft().player.getDeltaMovement().add((double)this.getKnockbackX(), (double)this.getKnockbackY(), (double)this.getKnockbackZ()));
-    }
+        }
     public float getKnockbackX() {
         return this.knockbackX;
     }

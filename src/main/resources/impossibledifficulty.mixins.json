@@ -59,7 +59,10 @@
     "PathEditingMixin",
     "FarmEditingMixin",
     "CrystalEditingMixin",
-    "ClientGettingMixin"
+    "ClientGettingMixin",
+    "PlayerEditingMixin",
+    "PlayerEditingMixinTwo",
+    "PlayerGettingMixin"
   ],
   "client": [
 

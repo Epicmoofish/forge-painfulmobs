@@ -33,9 +33,7 @@ credits="OceanicOxen" #optional
 # A text field displayed in the mod UI
 authors="OceanicOxen" #optional
 # The description text for the mod (multi line!) (#mandatory)
-description='''
-Makes the game extremely hard, probably impossible.
-'''
+description='Makes the game extremely hard, probably impossible.'
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.impossibledifficulty]] #optional
     # the modid of the dependency

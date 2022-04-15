@@ -93,6 +93,9 @@ private void injectedBaseTick(CallbackInfo ci){
             if (target != null && target instanceof Endermite && p_21016_!=DamageSource.DROWN) {
                 damage = 0;
             }
+            if (target != null && target instanceof Witch && p_21016_.isMagic()) {
+                damage = 0;
+            }
             if (target != null && target instanceof Endermite && p_21016_==DamageSource.DROWN) {
                 damage = damage/50;
             }
