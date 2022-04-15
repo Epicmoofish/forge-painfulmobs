@@ -61,7 +61,8 @@
     "CrystalEditingMixin",
     "ClientGettingMixin",
     "PlayerEditingMixin",
-    "PlayerEditingMixinThree"
+    "PlayerEditingMixinThree",
+    "PlayerGettingMixinActual"
   ],
   "client": [
     "PlayerEditingMixinTwo"

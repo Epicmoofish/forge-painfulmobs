@@ -54,4 +54,7 @@ public class ClientAirPacket implements Packet<ClientGamePacketListener> {
     public UUID getUUID() {
         return this.uuid;
     }
+    public boolean getAquatic() {
+        return this.aquatic;
+    }
 }
