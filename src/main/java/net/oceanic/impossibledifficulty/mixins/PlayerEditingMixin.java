@@ -57,7 +57,7 @@ private void injectedUnderwater(CallbackInfoReturnable<Boolean> cir){
         if (!ent.level.isClientSide) {
             if (ent instanceof Player) {
                 boolean inAir = !ent.isEyeInFluid(FluidTags.WATER) || ent.level.getBlockState(new BlockPos(ent.getX(), ent.getEyeY(), ent.getZ())).is(Blocks.BUBBLE_COLUMN);
-                boolean breathesWater = !ent.getLevel().isNight() && ent.getLevel().dimension() == Level.OVERWORLD;
+                boolean breathesWater = !ent.getLevel().isNight() || ent.getLevel().dimension() != Level.OVERWORLD;
                 if ((inAir && breathesWater) || (!inAir && !breathesWater)) {
                     boolean flag1 = !MobEffectUtil.hasWaterBreathing(ent) && (!((Player) ent).getAbilities().invulnerable);
                     if (flag1) {
@@ -81,9 +81,8 @@ private void injectedUnderwater(CallbackInfoReturnable<Boolean> cir){
                     ent.setAirSupply(Math.min(ent.getAirSupply() + 4, ent.getMaxAirSupply()));
                 }
                 if(ent instanceof ServerPlayer) {
-                    ((ServerPlayer) ent).connection.send(new ClientAirPacket(ent.getAirSupply(), ent.getUUID()));
+                    ((ServerPlayer) ent).connection.send(new ClientAirPacket(ent.getAirSupply(), ent.getUUID(),breathesWater));
                 }
-//                Send Packet
             }
         }
 

@@ -1,37 +1,36 @@
 package net.oceanic.impossibledifficulty.packet;
 
-import com.google.common.collect.Lists;
-import net.minecraft.core.BlockPos;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.Vec3;
-import net.oceanic.impossibledifficulty.explosions.NukeExplosion;
+import net.minecraft.world.entity.player.Player;
 import net.oceanic.impossibledifficulty.mixins.ClientGettingMixin;
+import net.oceanic.impossibledifficulty.interfaces.PlayerGettingMixin;
 
-import javax.annotation.Nullable;
-import java.util.List;
 import java.util.UUID;
 
 public class ClientAirPacket implements Packet<ClientGamePacketListener> {
     private final int air;
     private final UUID uuid;
-    public ClientAirPacket(int p_132115_,UUID uuid) {
+    private final boolean aquatic;
+    public ClientAirPacket(int p_132115_,UUID uuid, boolean aquatic) {
         this.air = p_132115_;
         this.uuid = uuid;
+        this.aquatic = aquatic;
     }
 
     public ClientAirPacket(FriendlyByteBuf p_178845_) {
         this.air = (int)p_178845_.readInt();
         this.uuid = (UUID)p_178845_.readUUID();
+        this.aquatic = (Boolean)p_178845_.readBoolean();
     }
 
     public void write(FriendlyByteBuf p_132129_) {
         p_132129_.writeInt((int)this.air);
         p_132129_.writeUUID((UUID)this.uuid);
+        p_132129_.writeBoolean((Boolean)this.aquatic);
     }
 
     public void handle(ClientGamePacketListener p_132126_) {
@@ -41,7 +40,12 @@ public class ClientAirPacket implements Packet<ClientGamePacketListener> {
         PacketUtils.ensureRunningOnSameThread(this, p_132126_, ((ClientGettingMixin)p_132126_).getMinecraft());
         if (((ClientGettingMixin)p_132126_).getMinecraft().level.getPlayerByUUID(this.uuid) !=null) {
             ((ClientGettingMixin) p_132126_).getMinecraft().level.getPlayerByUUID(this.uuid).setAirSupply(this.air);
-            System.out.println("Hopefully updated air");
+            if (((ClientGettingMixin) p_132126_).getMinecraft().level.getPlayerByUUID(this.uuid) instanceof LocalPlayer) {
+                Player player = ((ClientGettingMixin) p_132126_).getMinecraft().level.getPlayerByUUID(this.uuid);
+                LocalPlayer localplayer = (LocalPlayer) player;
+                PlayerGettingMixin playermixin = (PlayerGettingMixin)localplayer;
+                playermixin.setIsAquatic(this.aquatic);
+            }
         }
         }
     public int getAir() {

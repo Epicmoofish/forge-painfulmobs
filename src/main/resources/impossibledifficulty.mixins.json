@@ -61,9 +61,10 @@
     "CrystalEditingMixin",
     "ClientGettingMixin",
     "PlayerEditingMixin",
-    "PlayerEditingMixinTwo"
+    "PlayerEditingMixinThree"
   ],
   "client": [
+    "PlayerEditingMixinTwo"
   ],
   "injectors": {
     "defaultRequire": 1
