@@ -60,10 +60,10 @@
     "FarmEditingMixin",
     "CrystalEditingMixin",
     "ClientGettingMixin",
-    "PlayerEditingMixin"
+    "PlayerEditingMixin",
+    "PlayerEditingMixinTwo"
   ],
   "client": [
-  "PlayerEditingMixinTwo"
   ],
   "injectors": {
     "defaultRequire": 1
