@@ -74,7 +74,7 @@ public class EventHandler {
         if (!event.getEntityLiving().getLevel().isClientSide() && ImpossibleDifficultyMod.getShouldModify(event.getEntityLiving().getLevel())) {
             if (event.getEntityLiving() instanceof Player && new Random().nextInt(1200)==0){
                 if (event.getEntityLiving() !=null && event.getEntityLiving() instanceof Player){
-                    (event.getEntityLiving()).hurt(DamageSource.FALL,1);
+                    (event.getEntityLiving()).hurt(DamageSource.FALL,0.01f);
                     (event.getEntityLiving()).addEffect(new MobEffectInstance(MobEffects.BLINDNESS,100));
                     ((Player)event.getEntityLiving()).sendMessage((new TextComponent("You tripped.").withStyle(ChatFormatting.RED)), Util.NIL_UUID);
                 }
