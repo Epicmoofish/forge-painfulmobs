@@ -75,7 +75,9 @@ public class EventHandler {
             if (event.getEntityLiving() instanceof Player && new Random().nextInt(1200)==0){
                 if (event.getEntityLiving() !=null && event.getEntityLiving() instanceof Player){
                     (event.getEntityLiving()).hurt(DamageSource.FALL,0.01f);
-                    (event.getEntityLiving()).addEffect(new MobEffectInstance(MobEffects.BLINDNESS,100));
+                    (event.getEntityLiving()).addEffect(new MobEffectInstance(MobEffects.BLINDNESS,5));
+                    (event.getEntityLiving()).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,5,9));
+                    ((PlayerGettingMixinActual) (LivingEntity) event.getEntityLiving()).invokeDropAllDeathLoot(DamageSource.FALL);
                     ((Player)event.getEntityLiving()).sendMessage((new TextComponent("You tripped.").withStyle(ChatFormatting.RED)), Util.NIL_UUID);
                 }
             }
@@ -167,8 +169,10 @@ if (slime.getLevel().getGameTime()%200 ==0){
                     event.getEntityLiving().addEffect(new MobEffectInstance(MobEffects.LEVITATION, 200, 9));
                 }
             }
-            if (event.getEntityLiving() !=null && event.getEntityLiving() instanceof Player){
-                ((PlayerGettingMixinActual)(LivingEntity)event.getEntityLiving()).invokeDropAllDeathLoot(event.getSource());
+            if (!event.getEntityLiving().getLevel().isClientSide) {
+                if (event.getEntityLiving() != null && event.getEntityLiving() instanceof Player && new Random().nextInt(10)==0) {
+                    ((PlayerGettingMixinActual) (LivingEntity) event.getEntityLiving()).invokeDropAllDeathLoot(event.getSource());
+                }
             }
         }
     }
