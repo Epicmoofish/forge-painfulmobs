@@ -62,7 +62,10 @@
     "ClientGettingMixin",
     "PlayerEditingMixin",
     "PlayerEditingMixinThree",
-    "PlayerGettingMixinActual"
+    "PlayerGettingMixinActual",
+    "EatingEditingMixin",
+    "PlEatingEditingMixin",
+    "PreventEatingEditingMixin"
   ],
   "client": [
     "PlayerEditingMixinTwo"

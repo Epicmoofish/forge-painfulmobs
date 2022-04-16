@@ -46,7 +46,7 @@ public class SilverfishWakeupGoal extends Goal {
                         Block block = blockstate.getBlock();
                         if (block== Blocks.STONE) {
                             if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level, this.silverfish)) {
-                                level.destroyBlock(blockpos1, true, this.silverfish);
+                                level.destroyBlock(blockpos1, false, this.silverfish);
                                 Silverfish silverfish = EntityType.SILVERFISH.create(level);
                                 silverfish.moveTo((double)blockpos1.getX() + 0.5D, (double)blockpos1.getY(), (double)blockpos1.getZ() + 0.5D, 0.0F, 0.0F);
                                 level.addFreshEntity(silverfish);
