@@ -1,17 +1,15 @@
 package net.oceanic.impossibledifficulty.packet;
 
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.oceanic.impossibledifficulty.interfaces.PlayerEatingGettingMixin;
-import net.oceanic.impossibledifficulty.interfaces.PlayerGettingMixin;
 import net.oceanic.impossibledifficulty.mixins.ClientGettingMixin;
 
 import java.util.UUID;
-
 public class ClientUpdateLastFoodPacket implements Packet<ClientGamePacketListener> {
     private final String lastFood;
     private final UUID uuid;
@@ -33,6 +31,7 @@ public class ClientUpdateLastFoodPacket implements Packet<ClientGamePacketListen
     public void handle(ClientGamePacketListener p_132126_) {
         this.handleExplosion(p_132126_);
     }
+    @OnlyIn(Dist.CLIENT)
     public void handleExplosion(ClientGamePacketListener p_132126_) {
         PacketUtils.ensureRunningOnSameThread(this, p_132126_, ((ClientGettingMixin)p_132126_).getMinecraft());
         if (((ClientGettingMixin)p_132126_).getMinecraft().level.getPlayerByUUID(this.uuid) !=null) {

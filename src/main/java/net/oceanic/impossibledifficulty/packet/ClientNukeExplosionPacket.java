@@ -8,6 +8,8 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.oceanic.impossibledifficulty.explosions.NukeExplosion;
 
 import java.util.List;
@@ -16,7 +18,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.oceanic.impossibledifficulty.mixins.ClientGettingMixin;
 
 import javax.annotation.Nullable;
-
 public class ClientNukeExplosionPacket implements Packet<ClientGamePacketListener> {
     private final double x;
     private final double y;
@@ -88,6 +89,7 @@ public class ClientNukeExplosionPacket implements Packet<ClientGamePacketListene
     public void handle(ClientGamePacketListener p_132126_) {
         this.handleExplosion(p_132126_);
     }
+    @OnlyIn(Dist.CLIENT)
     public void handleExplosion(ClientGamePacketListener p_132126_) {
         PacketUtils.ensureRunningOnSameThread(this, p_132126_, ((ClientGettingMixin)p_132126_).getMinecraft());
         NukeExplosion explosion = new NukeExplosion(((ClientGettingMixin)p_132126_).getMinecraft().level, (Entity)null, this.getX(), this.getY(), this.getZ(), this.getPower(), this.getToBlow());

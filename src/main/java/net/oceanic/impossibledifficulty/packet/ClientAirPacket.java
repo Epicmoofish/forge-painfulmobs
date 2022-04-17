@@ -6,11 +6,12 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.oceanic.impossibledifficulty.mixins.ClientGettingMixin;
 import net.oceanic.impossibledifficulty.interfaces.PlayerGettingMixin;
 
 import java.util.UUID;
-
 public class ClientAirPacket implements Packet<ClientGamePacketListener> {
     private final int air;
     private final UUID uuid;
@@ -36,6 +37,7 @@ public class ClientAirPacket implements Packet<ClientGamePacketListener> {
     public void handle(ClientGamePacketListener p_132126_) {
         this.handleExplosion(p_132126_);
     }
+    @OnlyIn(Dist.CLIENT)
     public void handleExplosion(ClientGamePacketListener p_132126_) {
         PacketUtils.ensureRunningOnSameThread(this, p_132126_, ((ClientGettingMixin)p_132126_).getMinecraft());
         if (((ClientGettingMixin)p_132126_).getMinecraft().level.getPlayerByUUID(this.uuid) !=null) {

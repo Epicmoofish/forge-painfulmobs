@@ -22,11 +22,13 @@ import net.minecraft.world.entity.monster.piglin.PiglinBrute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.oceanic.impossibledifficulty.ImpossibleDifficultyMod;
 import net.oceanic.impossibledifficulty.interfaces.PlayerEatingGettingMixin;
 import net.oceanic.impossibledifficulty.mixins.GhastGettingMixin;
@@ -109,18 +111,18 @@ public class EventHandler {
                 event.getEntityLiving().getServer().setDifficultyLocked(true);
             }
         }
-        if (!event.getEntityLiving().getLevel().isClientSide() && ImpossibleDifficultyMod.getShouldModify(event.getEntityLiving().getLevel())) {
-            if (event.getEntityLiving() !=null && event.getEntityLiving() instanceof Player && new Random().nextInt(3600)==0 && event.getEntityLiving().isSprinting()){
-                    (event.getEntityLiving()).hurt(DamageSource.FALL,0.01f);
-                    (event.getEntityLiving()).addEffect(new MobEffectInstance(MobEffects.BLINDNESS,10));
-                    (event.getEntityLiving()).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,10,9));
-                    ((PlayerGettingMixinActual) (LivingEntity) event.getEntityLiving()).invokeDropAllDeathLoot(DamageSource.FALL);
-                    ((Player)event.getEntityLiving()).sendMessage((new TextComponent("You tripped.").withStyle(ChatFormatting.RED)), Util.NIL_UUID);
+        if (!event.getEntityLiving().getLevel().isClientSide()) {
+            if (event.getEntityLiving() != null && event.getEntityLiving() instanceof Player && new Random().nextInt(3600) == 0 && event.getEntityLiving().isSprinting()) {
+                (event.getEntityLiving()).hurt(DamageSource.FALL, 0.01f);
+                (event.getEntityLiving()).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 10));
+                (event.getEntityLiving()).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 10, 9));
+                ((PlayerGettingMixinActual) (LivingEntity) event.getEntityLiving()).invokeDropAllDeathLoot(DamageSource.FALL);
+                ((Player) event.getEntityLiving()).sendMessage((new TextComponent("You tripped.").withStyle(ChatFormatting.RED)), Util.NIL_UUID);
             }
             if (event.getEntityLiving() instanceof Ghast) {
                 Ghast ghast = ((Ghast) event.getEntityLiving());
-                if (ghast.getExplosionPower()<5){
-                    ((GhastGettingMixin)ghast).setExplosionPower(ghast.getExplosionPower()*5);
+                if (ghast.getExplosionPower() < 5) {
+                    ((GhastGettingMixin) ghast).setExplosionPower(ghast.getExplosionPower() * 5);
                 }
             }
             if (event.getEntityLiving() instanceof Zombie) {
@@ -136,12 +138,12 @@ public class EventHandler {
                 }
             }
             if (event.getEntityLiving() instanceof Slime) {
-Slime slime = (Slime)event.getEntityLiving();
-if (slime.getSize()<4&&slime.isAlive()) {
-if (slime.getLevel().getGameTime()%200 ==0){
-    ((SlimeGettingMixin) slime).invokeSetSize(Math.min(slime.getSize() *2,4), true);
-}
-}
+                Slime slime = (Slime) event.getEntityLiving();
+                if (slime.getSize() < 4 && slime.isAlive()) {
+                    if (slime.getLevel().getGameTime() % 200 == 0) {
+                        ((SlimeGettingMixin) slime).invokeSetSize(Math.min(slime.getSize() * 2, 4), true);
+                    }
+                }
             }
             if (event.getEntityLiving() instanceof AbstractSkeleton) {
                 AbstractSkeleton skeleton = ((AbstractSkeleton) event.getEntityLiving());
@@ -160,22 +162,23 @@ if (slime.getLevel().getGameTime()%200 ==0){
                 Evoker evoker = ((Evoker) event.getEntityLiving());
                 if (evoker.getOffhandItem().isEmpty() && !evoker.getTags().contains("GivenTotemAlready")) {
                     evoker.addTag("GivenTotemAlready");
-                    evoker.setItemInHand(InteractionHand.OFF_HAND,new ItemStack(Items.TOTEM_OF_UNDYING,1));
+                    evoker.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.TOTEM_OF_UNDYING, 1));
                 }
             }
-            if (event.getEntityLiving() instanceof Player){
-                Player ent = ((Player)event.getEntityLiving());
-                if(ent instanceof ServerPlayer) {
-                    if (((ServerPlayer) ent).connection!=null) {
-                        ((ServerPlayer) ent).connection.send(new ClientUpdateLastFoodPacket(((PlayerEatingGettingMixin)ent).getLastFood(), ent.getUUID()));
+            if (event.getEntityLiving() instanceof Player) {
+                Player ent = ((Player) event.getEntityLiving());
+                if (ent instanceof ServerPlayer) {
+                    if (((ServerPlayer) ent).connection != null) {
+                        ((ServerPlayer) ent).connection.send(new ClientUpdateLastFoodPacket(((PlayerEatingGettingMixin) ent).getLastFood(), ent.getUUID()));
                     }
                 }
             }
+        }
 //            if (event.getEntityLiving() instanceof Phantom) {
 //                Phantom phantom = ((Phantom) event.getEntityLiving());
 //                phantom.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 100, 0, false, false));
 //            }
-        }
+
     }
     @SubscribeEvent
     public void shieldEvent(ShieldBlockEvent event) {
