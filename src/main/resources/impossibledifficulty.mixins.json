@@ -62,7 +62,6 @@
     "PlayerEditingMixin",
     "PlayerEditingMixinThree",
     "PlayerGettingMixinActual",
-    "EatingEditingMixin",
     "PlEatingEditingMixin",
     "PreventEatingEditingMixin"
   ],

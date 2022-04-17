@@ -18,7 +18,7 @@ public class WitchEditingMixin {
         if (ImpossibleDifficultyMod.getShouldModify(((Witch) (Object) this).getLevel())) {
             ((Witch) (Object) this).goalSelector.removeAllGoals();
             ((Witch) (Object) this).goalSelector.addGoal(1, new FloatGoal(((Witch) (Object) this)));
-            ((Witch) (Object) this).goalSelector.addGoal(2, new RangedAttackGoal(((Witch) (Object) this), 1.0D, 1, 10.0F));
+            ((Witch) (Object) this).goalSelector.addGoal(2, new RangedAttackGoal(((Witch) (Object) this), 1.0D, 2, 10.0F));
             ((Witch) (Object) this).goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(((Witch) (Object) this), 1.0D));
             ((Witch) (Object) this).goalSelector.addGoal(3, new LookAtPlayerGoal(((Witch) (Object) this), Player.class, 8.0F));
             ((Witch) (Object) this).goalSelector.addGoal(3, new RandomLookAroundGoal(((Witch) (Object) this)));

@@ -44,13 +44,13 @@ private void injectedBaseTick(CallbackInfo ci){
                 }
             }
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Zombie) {
-                damage = damage * 5;
+                damage = damage * 2;
             }
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof AbstractSkeleton &&! (p_21016_.getEntity() instanceof WitherSkeleton)) {
-                damage = damage * 5;
+                damage = damage * 0.4f;
             }
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Spider && target != null) {
-                damage = damage * 3;
+                damage = damage * 2;
             }
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof PiglinBrute && target != null) {
                 damage = damage * 10;
@@ -58,7 +58,7 @@ private void injectedBaseTick(CallbackInfo ci){
                 damage = damage * 1.5F;
             }
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof EnderMan && target != null) {
-                damage = damage * 5;
+                damage = damage * 2;
             }
             if (p_21016_ != null && p_21016_.getEntity() != null && p_21016_.getEntity() instanceof Ravager && target != null) {
                 damage = damage * 10;
@@ -82,7 +82,7 @@ private void injectedBaseTick(CallbackInfo ci){
                 ((Phantom)p_21016_.getEntity()).heal(damage);
             }
             if (target != null && target instanceof Zombie) {
-                damage = damage / 10;
+                damage = damage / 3;
             }
             if (target != null && target instanceof Shulker) {
                 damage = damage / 4;

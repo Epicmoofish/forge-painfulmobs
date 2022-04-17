@@ -29,11 +29,11 @@ public class OreEditingMixin {
 
             RuleTest STONE_ORE_REPLACEABLES = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
             RuleTest DEEPSLATE_ORE_REPLACEABLES = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
-            List<OreConfiguration.TargetBlockState> IRON_TO_COBBLESTONE = List.of(OreConfiguration.target(STONE_ORE_REPLACEABLES, Blocks.COBBLESTONE.defaultBlockState()), OreConfiguration.target(DEEPSLATE_ORE_REPLACEABLES, Blocks.COBBLED_DEEPSLATE.defaultBlockState()));
+            List<OreConfiguration.TargetBlockState> IRON_TO_COBBLESTONE = List.of(OreConfiguration.target(STONE_ORE_REPLACEABLES, Blocks.IRON_ORE.defaultBlockState()), OreConfiguration.target(DEEPSLATE_ORE_REPLACEABLES, Blocks.DEEPSLATE_IRON_ORE.defaultBlockState()));
             if (p_206382_ != "ore_iron") {
-                return BuiltinRegistries.registerExact(BuiltinRegistries.CONFIGURED_FEATURE, "ore_cobble", new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(IRON_TO_COBBLESTONE, 9)));
+                return BuiltinRegistries.registerExact(BuiltinRegistries.CONFIGURED_FEATURE, "ore_ironic", new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(IRON_TO_COBBLESTONE, 4)));
             } else {
-                return BuiltinRegistries.registerExact(BuiltinRegistries.CONFIGURED_FEATURE, "ore_cobble_small", new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(IRON_TO_COBBLESTONE, 4)));
+                return BuiltinRegistries.registerExact(BuiltinRegistries.CONFIGURED_FEATURE, "ore_ironic_small", new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(IRON_TO_COBBLESTONE, 2)));
             }
         }
     }

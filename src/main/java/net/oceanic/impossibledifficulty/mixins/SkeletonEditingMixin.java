@@ -17,7 +17,7 @@ public class SkeletonEditingMixin {
     )
     private int injectedTick(int value){
         if (ImpossibleDifficultyMod.getShouldModify(((SkeletonGettingMixin)(RangedBowAttackGoal)(Object)this).getMob().getLevel())) {
-            return 1;
+            return 2;
         }
         return value;
     }
