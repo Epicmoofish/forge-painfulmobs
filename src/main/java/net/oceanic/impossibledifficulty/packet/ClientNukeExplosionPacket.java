@@ -10,39 +10,31 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.network.NetworkEvent;
 import net.oceanic.impossibledifficulty.explosions.NukeExplosion;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.oceanic.impossibledifficulty.mixins.ClientGettingMixin;
 
 import javax.annotation.Nullable;
-public class ClientNukeExplosionPacket implements Packet<ClientGamePacketListener> {
+public class ClientNukeExplosionPacket {
     private final double x;
     private final double y;
     private final double z;
     private final float power;
     private final List<BlockPos> toBlow;
-    private final float knockbackX;
-    private final float knockbackY;
-    private final float knockbackZ;
 
-    public ClientNukeExplosionPacket(double p_132115_, double p_132116_, double p_132117_, float p_132118_, List<BlockPos> p_132119_, @Nullable Vec3 p_132120_) {
+    public ClientNukeExplosionPacket(double p_132115_, double p_132116_, double p_132117_, float p_132118_, List<BlockPos> p_132119_) {
         this.x = p_132115_;
         this.y = p_132116_;
         this.z = p_132117_;
         this.power = p_132118_;
         this.toBlow = Lists.newArrayList(p_132119_);
-        if (p_132120_ != null) {
-            this.knockbackX = (float)p_132120_.x;
-            this.knockbackY = (float)p_132120_.y;
-            this.knockbackZ = (float)p_132120_.z;
-        } else {
-            this.knockbackX = 0.0F;
-            this.knockbackY = 0.0F;
-            this.knockbackZ = 0.0F;
-        }
 
     }
 
@@ -60,12 +52,9 @@ public class ClientNukeExplosionPacket implements Packet<ClientGamePacketListene
             int j1 = p_178850_.readByte() + k;
             return new BlockPos(l, i1, j1);
         });
-        this.knockbackX = p_178845_.readFloat();
-        this.knockbackY = p_178845_.readFloat();
-        this.knockbackZ = p_178845_.readFloat();
     }
 
-    public void write(FriendlyByteBuf p_132129_) {
+    public void encode(FriendlyByteBuf p_132129_) {
         p_132129_.writeFloat((float)this.x);
         p_132129_.writeFloat((float)this.y);
         p_132129_.writeFloat((float)this.z);
@@ -81,49 +70,16 @@ public class ClientNukeExplosionPacket implements Packet<ClientGamePacketListene
             p_178855_.writeByte(i1);
             p_178855_.writeByte(j1);
         });
-        p_132129_.writeFloat(this.knockbackX);
-        p_132129_.writeFloat(this.knockbackY);
-        p_132129_.writeFloat(this.knockbackZ);
     }
 
-    public void handle(ClientGamePacketListener p_132126_) {
-        this.handleExplosion(p_132126_);
-    }
-    @OnlyIn(Dist.CLIENT)
-    public void handleExplosion(ClientGamePacketListener p_132126_) {
-        PacketUtils.ensureRunningOnSameThread(this, p_132126_, ((ClientGettingMixin)p_132126_).getMinecraft());
-        NukeExplosion explosion = new NukeExplosion(((ClientGettingMixin)p_132126_).getMinecraft().level, (Entity)null, this.getX(), this.getY(), this.getZ(), this.getPower(), this.getToBlow());
-        explosion.finalizeExplosion(true);
-        }
-    public float getKnockbackX() {
-        return this.knockbackX;
-    }
+    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
+        final var success = new AtomicBoolean(false);
+        ctx.get().enqueueWork(() -> {
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+                    () -> () -> success.set(ClientPacketHandler.handleExplosion(this.x,this.y,this.z,this.power,this.toBlow)));
+        });
 
-    public float getKnockbackY() {
-        return this.knockbackY;
-    }
-
-    public float getKnockbackZ() {
-        return this.knockbackZ;
-    }
-
-    public double getX() {
-        return this.x;
-    }
-
-    public double getY() {
-        return this.y;
-    }
-
-    public double getZ() {
-        return this.z;
-    }
-
-    public float getPower() {
-        return this.power;
-    }
-
-    public List<BlockPos> getToBlow() {
-        return this.toBlow;
+        ctx.get().setPacketHandled(true);
+        return success.get();
     }
 }

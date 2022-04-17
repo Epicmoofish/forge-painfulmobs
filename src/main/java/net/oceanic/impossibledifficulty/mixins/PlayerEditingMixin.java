@@ -1,31 +1,25 @@
 package net.oceanic.impossibledifficulty.mixins;
 
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.*;
-import net.minecraft.world.entity.monster.piglin.Piglin;
-import net.minecraft.world.entity.monster.piglin.PiglinBrute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-import net.oceanic.impossibledifficulty.ImpossibleDifficultyMod;
+import net.minecraftforge.network.PacketDistributor;
+import net.oceanic.impossibledifficulty.interfaces.PlayerEatingGettingMixin;
 import net.oceanic.impossibledifficulty.packet.ClientAirPacket;
-import net.oceanic.impossibledifficulty.packet.ClientNukeExplosionPacket;
+import net.oceanic.impossibledifficulty.packet.ClientUpdateLastFoodPacket;
+import net.oceanic.impossibledifficulty.packet.PacketHandler;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -80,12 +74,16 @@ private void injectedUnderwater(CallbackInfoReturnable<Boolean> cir){
                 } else if (ent.getAirSupply() < ent.getMaxAirSupply()) {
                     ent.setAirSupply(Math.min(ent.getAirSupply() + 4, ent.getMaxAirSupply()));
                 }
-                if(ent instanceof ServerPlayer) {
-                    ((ServerPlayer) ent).connection.send(new ClientAirPacket(ent.getAirSupply(), ent.getUUID(),breathesWater));
+                if (ent instanceof ServerPlayer) {
+                    PacketHandler.INSTANCE.send(
+                            PacketDistributor.PLAYER
+                                    .with(() -> (ServerPlayer) ent),
+                            new ClientAirPacket(ent.getAirSupply(), ent.getUUID(),breathesWater));
                 }
+            }
+
             }
         }
 
     }
-}
 

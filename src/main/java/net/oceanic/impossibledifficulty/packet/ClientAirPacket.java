@@ -7,12 +7,16 @@ import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.network.NetworkEvent;
 import net.oceanic.impossibledifficulty.mixins.ClientGettingMixin;
 import net.oceanic.impossibledifficulty.interfaces.PlayerGettingMixin;
 
 import java.util.UUID;
-public class ClientAirPacket implements Packet<ClientGamePacketListener> {
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
+
+public class ClientAirPacket {
     private final int air;
     private final UUID uuid;
     private final boolean aquatic;
@@ -28,35 +32,20 @@ public class ClientAirPacket implements Packet<ClientGamePacketListener> {
         this.aquatic = (Boolean)p_178845_.readBoolean();
     }
 
-    public void write(FriendlyByteBuf p_132129_) {
+    public void encode(FriendlyByteBuf p_132129_) {
         p_132129_.writeInt((int)this.air);
         p_132129_.writeUUID((UUID)this.uuid);
         p_132129_.writeBoolean((Boolean)this.aquatic);
     }
 
-    public void handle(ClientGamePacketListener p_132126_) {
-        this.handleExplosion(p_132126_);
-    }
-    @OnlyIn(Dist.CLIENT)
-    public void handleExplosion(ClientGamePacketListener p_132126_) {
-        PacketUtils.ensureRunningOnSameThread(this, p_132126_, ((ClientGettingMixin)p_132126_).getMinecraft());
-        if (((ClientGettingMixin)p_132126_).getMinecraft().level.getPlayerByUUID(this.uuid) !=null) {
-            ((ClientGettingMixin) p_132126_).getMinecraft().level.getPlayerByUUID(this.uuid).setAirSupply(this.air);
-            if (((ClientGettingMixin) p_132126_).getMinecraft().level.getPlayerByUUID(this.uuid) instanceof LocalPlayer) {
-                Player player = ((ClientGettingMixin) p_132126_).getMinecraft().level.getPlayerByUUID(this.uuid);
-                LocalPlayer localplayer = (LocalPlayer) player;
-                PlayerGettingMixin playermixin = (PlayerGettingMixin)localplayer;
-                playermixin.setIsAquatic(this.aquatic);
-            }
-        }
-        }
-    public int getAir() {
-        return this.air;
-    }
-    public UUID getUUID() {
-        return this.uuid;
-    }
-    public boolean getAquatic() {
-        return this.aquatic;
+    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
+        final var success = new AtomicBoolean(false);
+        ctx.get().enqueueWork(() -> {
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+                    () -> () -> success.set(ClientPacketHandler.handleAirPacket(this.air,this.uuid,this.aquatic)));
+        });
+
+        ctx.get().setPacketHandled(true);
+        return success.get();
     }
 }

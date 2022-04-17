@@ -14,6 +14,7 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.oceanic.impossibledifficulty.eventhandlers.EventHandler;
+import net.oceanic.impossibledifficulty.packet.PacketHandler;
 
 import java.lang.reflect.Method;
 
@@ -52,6 +53,7 @@ public class ImpossibleDifficultyMod
     private void setup(final FMLCommonSetupEvent event)
     {
 //        modifyMobs=createBoolean("modifyMobs", true, GameRules.Category.MOBS);
+        event.enqueueWork(PacketHandler::init);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

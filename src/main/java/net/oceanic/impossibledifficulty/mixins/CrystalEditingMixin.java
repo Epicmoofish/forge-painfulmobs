@@ -8,8 +8,10 @@ import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PacketDistributor;
 import net.oceanic.impossibledifficulty.explosions.NukeExplosion;
 import net.oceanic.impossibledifficulty.packet.ClientNukeExplosionPacket;
+import net.oceanic.impossibledifficulty.packet.PacketHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -34,7 +36,10 @@ private Explosion customExplode(Level level, Entity p_46512_, double p_46513_, d
             ServerLevel serverLevel = (ServerLevel)level;
             for (ServerPlayer serverplayer : serverLevel.players()) {
                 if (serverplayer.distanceToSqr(p_46529_, p_46530_, p_46531_) < 4096.0D) {
-                    serverplayer.connection.send(new ClientNukeExplosionPacket(p_46529_, p_46530_, p_46531_, p_46532_, explosion.getToBlow(), explosion.getHitPlayers().get(serverplayer)));
+                    PacketHandler.INSTANCE.send(
+                            PacketDistributor.PLAYER
+                                    .with(() -> serverplayer),
+                            new ClientNukeExplosionPacket(p_46529_, p_46530_, p_46531_, p_46532_, explosion.getToBlow()));
                 }
             }
         }

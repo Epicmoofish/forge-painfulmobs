@@ -29,6 +29,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.network.PacketDistributor;
 import net.oceanic.impossibledifficulty.ImpossibleDifficultyMod;
 import net.oceanic.impossibledifficulty.interfaces.PlayerEatingGettingMixin;
 import net.oceanic.impossibledifficulty.mixins.GhastGettingMixin;
@@ -36,6 +37,7 @@ import net.oceanic.impossibledifficulty.mixins.LivingGettingMixin;
 import net.oceanic.impossibledifficulty.mixins.PlayerGettingMixinActual;
 import net.oceanic.impossibledifficulty.mixins.SlimeGettingMixin;
 import net.oceanic.impossibledifficulty.packet.ClientUpdateLastFoodPacket;
+import net.oceanic.impossibledifficulty.packet.PacketHandler;
 
 import java.util.Random;
 
@@ -169,7 +171,10 @@ public class EventHandler {
                 Player ent = ((Player) event.getEntityLiving());
                 if (ent instanceof ServerPlayer) {
                     if (((ServerPlayer) ent).connection != null) {
-                        ((ServerPlayer) ent).connection.send(new ClientUpdateLastFoodPacket(((PlayerEatingGettingMixin) ent).getLastFood(), ent.getUUID()));
+                        PacketHandler.INSTANCE.send(
+                                PacketDistributor.PLAYER
+                                        .with(() -> (ServerPlayer) ent),
+                                new ClientUpdateLastFoodPacket(((PlayerEatingGettingMixin) ent).getLastFood(), ent.getUUID()));
                     }
                 }
             }
